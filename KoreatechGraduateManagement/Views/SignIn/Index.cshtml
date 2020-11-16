@@ -1,0 +1,173 @@
+﻿@model KoreatechGraduateManagement.Models.User
+
+@{
+    ViewData["Title"] = "회원가입";
+}
+
+<h1>회원가입</h1>
+
+<hr />
+<style>
+    #search {
+        background: #1AAB8A;
+        color: #fff;
+        border: none;
+        position: relative;
+        height: 100%;
+        font-size: 1.0em;
+        padding: 0 0.2em;
+        margin : 0 0.2em;
+        cursor: pointer;
+        transition: 800ms ease all;
+        outline: none;
+    }
+
+        #search:hover {
+            background: #fff;
+            color: #1AAB8A;
+        }
+
+        #search:before, #search:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 2px;
+            width: 0;
+            background: #1AAB8A;
+            transition: 400ms ease all;
+        }
+
+        #search:after {
+            right: inherit;
+            top: inherit;
+            left: 0;
+            bottom: 0;
+        }
+
+        #search:hover:before, #search:hover:after {
+            width: 100%;
+            transition: 800ms ease all;
+        }
+
+</style
+><div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index" id="sign-in">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserID" class="control-label"></label>
+                <div class="input-group">
+                    <input asp-for="UserID" class="form-control" id="ID" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="search" type="button" onclick="checkIDValid()">검사</button>
+                    </span>
+                </div>
+                    <span asp-validation-for="UserID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserPassword" class="control-label"></label>
+                    <input asp-for="UserPassword" type="password" class="form-control" />
+                    <span asp-validation-for="UserPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SchoolD" class="control-label"></label>
+                    <input asp-for="SchoolD" class="form-control" />
+                    <span asp-validation-for="SchoolD" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Grade" class="control-label"></label>
+                    <input asp-for="Grade" class="form-control" />
+                    <span asp-validation-for="Grade" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="회원가입" class="btn btn-primary" />
+                </div>
+</form>
+    </div>
+</div>
+
+<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
+     aria-hidden="true" onclick="okButtonClicked()">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="aModalLabel">Message</h4>
+            </div>
+            <div class="modal-body">
+                @ViewBag.Result
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="okButtonClicked()" class="btn btn-primary">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    if (ViewBag.Result != null)
+    {
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#aModal").modal('show');
+            });
+        </script>
+    }
+}
+@section Scripts{
+    <script>
+        var isIDValid = false;
+        var checkID = "";
+        $(document).keypress(function (event) {
+
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                window.location.href = "/";
+            }
+
+        });
+
+        function okButtonClicked() {
+            window.location.href = "/";
+        }
+
+        function checkIDValid() {
+            var id = document.getElementById("ID").value;
+            checkID = id;
+            if (id.trim() != "") {
+                $.ajax({
+                    type: "get",
+                    url: "SignIn/IsIDValid?id="+id,
+                    data: "{}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {       
+                        isIDValid = data.isValid;
+                        if (isIDValid)
+                            alert("사용가능합니다.");
+                        else
+                            alert("아이디가 이미 사용 중입니다.");
+                    },
+                    error: function (data) { alert('조회에 실패했습니다.'); }
+                });  
+            } else {
+                alert("아이디를 입력해주세요.");
+            }
+        }
+
+        $("#sign-in").submit(function (event) {
+            if (!isIDValid || document.getElementById("ID").value != checkID) {
+                alert("아이디 검사를 해주세요!");
+                return false;
+            }
+            return true;
+        });
+
+    </script>
+}
