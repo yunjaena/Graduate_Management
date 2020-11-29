@@ -1,0 +1,87 @@
+﻿@model KoreatechGraduateManagement.Models.User
+
+@{
+    ViewData["Title"] = "로그인";
+}
+
+<style>
+    #search {
+        background: #1AAB8A;
+        color: #fff;
+        border: none;
+        position: relative;
+        height: 100%;
+        font-size: 1.0em;
+        padding: 0 0.2em;
+        margin: 0 0.2em;
+        cursor: pointer;
+        transition: 800ms ease all;
+        outline: none;
+    }
+
+        #search:hover {
+            background: #fff;
+            color: #1AAB8A;
+        }
+
+        #search:before, #search:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 2px;
+            width: 0;
+            background: #1AAB8A;
+            transition: 400ms ease all;
+        }
+
+        #search:after {
+            right: inherit;
+            top: inherit;
+            left: 0;
+            bottom: 0;
+        }
+
+        #search:hover:before, #search:hover:after {
+            width: 100%;
+            transition: 800ms ease all;
+        }
+
+    .form-div {
+        width = 100%;
+        padding-right: 45px
+    }
+</style>
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <script type="text/javascript">
+        alert("@ViewBag.Error");
+    </script>
+}
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Login
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UserID)
+                        @Html.TextBoxFor(m => m.UserID, "", new { @class = "form-control", @placeholder = "Id" })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UserPassword)
+                        @Html.PasswordFor(m => m.UserPassword, new { @class = "form-control", @placeholder = "Password" })
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-primary" value="Login" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

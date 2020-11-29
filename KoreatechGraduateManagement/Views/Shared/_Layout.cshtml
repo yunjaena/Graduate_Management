@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - 한기대 졸업 관리 시스템</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -15,6 +15,7 @@
 </head>
 <body>
     <header>
+        @using Microsoft.AspNetCore.Http;
         <nav class="navbar navbar-expand-lg  navbar-dark bg-dark" style="margin-bottom: 2em;">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">한기대 졸업 관리 시스템</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link"asp-area="" asp-controller="Home" asp-action="Index">홈<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">홈<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">정책</a>
@@ -31,14 +32,28 @@
                         <a class="nav-link" href="#">Pricing</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="SignIn" asp-action="Index">회원가입</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="SignIn" asp-action="Index">로그인</a>
-                    </li>
-                </ul>
+                @if (Context.Session.GetString("Name") == null)
+                {
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="SignIn" asp-action="Index">회원가입</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="LogIn" asp-action="Index">로그인</a>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link">@Context.Session.GetString("Name")</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="LogOut">로그아웃</a>
+                        </li>
+                    </ul>
+                }
             </div>
         </nav>
     </header>
@@ -47,7 +62,6 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2020 - 한기대 졸업 관리 시스템 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
