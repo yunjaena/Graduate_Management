@@ -41,6 +41,8 @@ namespace KoreatechGraduateManagement.Controllers
                     //add session
                     HttpContext.Session.SetString("Name", data.FirstOrDefault().Name);
                     HttpContext.Session.SetInt32("Id", data.FirstOrDefault().Id);
+                    if(data.FirstOrDefault().IsAdmin)
+                        HttpContext.Session.SetString("IsAdmin", data.FirstOrDefault().Name);
                     return Redirect("~/");
                 }
                 else

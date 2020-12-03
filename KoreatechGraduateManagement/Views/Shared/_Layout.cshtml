@@ -31,7 +31,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Pricing</a>
                     </li>
-                </ul>
+                    @if (Context.Session.GetString("IsAdmin") != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Subjects" asp-action="Index">과목관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">회원관리</a>
+                        </li>          
+                    }
+                    </ul>
                 @if (Context.Session.GetString("Name") == null)
                 {
                     <ul class="navbar-nav ml-auto">
@@ -58,7 +67,7 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3"  style="margin-bottom: 4em;">
             @RenderBody()
         </main>
     </div>

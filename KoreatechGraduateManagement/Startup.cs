@@ -33,6 +33,9 @@ namespace KoreatechGraduateManagement
             services.AddDbContext<MvcUserContext>(options =>
                   options.UseSqlServer(Configuration.GetConnectionString("MvcUserContext")));
 
+            services.AddDbContext<MvcSubjectContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("MvcSubjectContext")));
+
             services.Configure<WebEncoderOptions>(options =>
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All); // 한글이 인코딩되는 문제 해결
