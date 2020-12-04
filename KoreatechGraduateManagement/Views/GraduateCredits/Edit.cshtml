@@ -1,0 +1,84 @@
+﻿@model KoreatechGraduateManagement.Models.GraduateCredit
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>GraduateCredit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="EntranceYear" class="control-label"></label>
+                <input asp-for="EntranceYear" class="form-control" />
+                <span asp-validation-for="EntranceYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalGraduateCredit" class="control-label"></label>
+                <input asp-for="TotalGraduateCredit" class="form-control" />
+                <span asp-validation-for="TotalGraduateCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ElectivesNormalCredit" class="control-label"></label>
+                <input asp-for="ElectivesNormalCredit" class="form-control" />
+                <span asp-validation-for="ElectivesNormalCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ElectivesNecessaryCredit" class="control-label"></label>
+                <input asp-for="ElectivesNecessaryCredit" class="form-control" />
+                <span asp-validation-for="ElectivesNecessaryCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CoreClassNormalCredit" class="control-label"></label>
+                <input asp-for="CoreClassNormalCredit" class="form-control" />
+                <span asp-validation-for="CoreClassNormalCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CoreClassNecessaryCredit" class="control-label"></label>
+                <input asp-for="CoreClassNecessaryCredit" class="form-control" />
+                <span asp-validation-for="CoreClassNecessaryCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HRDNormalCredit" class="control-label"></label>
+                <input asp-for="HRDNormalCredit" class="form-control" />
+                <span asp-validation-for="HRDNormalCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HRDClassNecessaryCredit" class="control-label"></label>
+                <input asp-for="HRDClassNecessaryCredit" class="form-control" />
+                <span asp-validation-for="HRDClassNecessaryCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MSCNormalCredit" class="control-label"></label>
+                <input asp-for="MSCNormalCredit" class="form-control" />
+                <span asp-validation-for="MSCNormalCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MSCNecessaryCredit" class="control-label"></label>
+                <input asp-for="MSCNecessaryCredit" class="form-control" />
+                <span asp-validation-for="MSCNecessaryCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FreeCredit" class="control-label"></label>
+                <input asp-for="FreeCredit" class="form-control" />
+                <span asp-validation-for="FreeCredit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

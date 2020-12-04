@@ -1,0 +1,95 @@
+﻿@model IEnumerable<KoreatechGraduateManagement.Models.GraduateCredit>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EntranceYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalGraduateCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ElectivesNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ElectivesNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoreClassNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoreClassNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HRDNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HRDClassNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MSCNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MSCNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FreeCredit)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntranceYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalGraduateCredit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ElectivesNormalCredit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ElectivesNecessaryCredit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoreClassNormalCredit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoreClassNecessaryCredit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HRDNormalCredit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HRDClassNecessaryCredit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MSCNormalCredit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MSCNecessaryCredit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FreeCredit)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

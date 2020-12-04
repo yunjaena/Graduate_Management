@@ -10,6 +10,9 @@ namespace KoreatechGraduateManagement.Models
     {
         public int Id { get; set; }
 
+        [DisplayName("과목명")]
+        public String SubjectName { get; set; }
+
         [DisplayName("학기")]
         public String Semester { get; set; }
 

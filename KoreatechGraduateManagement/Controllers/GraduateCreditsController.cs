@@ -7,107 +7,88 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KoreatechGraduateManagement.Data;
 using KoreatechGraduateManagement.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace KoreatechGraduateManagement.Controllers
 {
-    public class UsersController : Controller
+    public class GraduateCreditsController : Controller
     {
-        private readonly MvcUserContext _context;
+        private readonly MvcGraduateCreditContext _context;
 
-        public UsersController(MvcUserContext context)
+        public GraduateCreditsController(MvcGraduateCreditContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: GraduateCredits
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
-            return View(await _context.User.ToListAsync());
+            return View(await _context.GraduateCredit.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: GraduateCredits/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User
+            var graduateCredit = await _context.GraduateCredit
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (graduateCredit == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(graduateCredit);
         }
 
-        // GET: Users/Create
+        // GET: GraduateCredits/Create
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             return View();
         }
 
-        // POST: Users/Create
+        // POST: GraduateCredits/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserID,UserPassword,Name,SchoolD,Grade,IsAdmin")] User user)
+        public async Task<IActionResult> Create([Bind("Id,EntranceYear,TotalGraduateCredit,ElectivesNormalCredit,ElectivesNecessaryCredit,CoreClassNormalCredit,CoreClassNecessaryCredit,HRDNormalCredit,HRDClassNecessaryCredit,MSCNormalCredit,MSCNecessaryCredit,FreeCredit")] GraduateCredit graduateCredit)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(graduateCredit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(graduateCredit);
         }
 
-        // GET: Users/Edit/5
+        // GET: GraduateCredits/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var graduateCredit = await _context.GraduateCredit.FindAsync(id);
+            if (graduateCredit == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(graduateCredit);
         }
 
-        // POST: Users/Edit/5
+        // POST: GraduateCredits/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,UserPassword,Name,SchoolD,Grade,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EntranceYear,TotalGraduateCredit,ElectivesNormalCredit,ElectivesNecessaryCredit,CoreClassNormalCredit,CoreClassNecessaryCredit,HRDNormalCredit,HRDClassNecessaryCredit,MSCNormalCredit,MSCNecessaryCredit,FreeCredit")] GraduateCredit graduateCredit)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
-            if (id != user.Id)
+            if (id != graduateCredit.Id)
             {
                 return NotFound();
             }
@@ -116,12 +97,12 @@ namespace KoreatechGraduateManagement.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(graduateCredit);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!GraduateCreditExists(graduateCredit.Id))
                     {
                         return NotFound();
                     }
@@ -132,47 +113,41 @@ namespace KoreatechGraduateManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(graduateCredit);
         }
 
-        // GET: Users/Delete/5
+        // GET: GraduateCredits/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User
+            var graduateCredit = await _context.GraduateCredit
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (graduateCredit == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(graduateCredit);
         }
 
-        // POST: Users/Delete/5
+        // POST: GraduateCredits/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
-            var user = await _context.User.FindAsync(id);
-            _context.User.Remove(user);
+            var graduateCredit = await _context.GraduateCredit.FindAsync(id);
+            _context.GraduateCredit.Remove(graduateCredit);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool GraduateCreditExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.GraduateCredit.Any(e => e.Id == id);
         }
     }
 }

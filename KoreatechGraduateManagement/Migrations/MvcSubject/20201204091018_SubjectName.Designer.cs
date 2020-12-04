@@ -3,14 +3,16 @@ using KoreatechGraduateManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KoreatechGraduateManagement.Migrations.MvcSubject
 {
     [DbContext(typeof(MvcSubjectContext))]
-    partial class MvcSubjectContextModelSnapshot : ModelSnapshot
+    [Migration("20201204091018_SubjectName")]
+    partial class SubjectName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

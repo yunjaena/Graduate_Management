@@ -23,24 +23,44 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">홈<span class="sr-only">(current)</span></a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">정책</a>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
                     </li>
-                    @if (Context.Session.GetString("IsAdmin") != null)
+                    @if (Context.Session.GetString("Authorize") == "Admin")
                     {
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Subjects" asp-action="Index">과목관리</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Index">회원관리</a>
-                        </li>          
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="GraduateCredits" asp-action="Index">졸업학점관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Status" asp-action="Index">회원수강현황관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="EtcStatus" asp-action="Index">회원기타졸업요건관리</a>
+                        </li>
+
                     }
-                    </ul>
+                    else if(Context.Session.GetString("Authorize") == "User")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="GraduateCredits" asp-action="Index">졸업학점관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Subjects" asp-action="Index">과목검색</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Status" asp-action="Index">수강현황관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="EtcStatus" asp-action="Index">기타졸업요건관리</a>
+                        </li>
+                    }
+                </ul>
                 @if (Context.Session.GetString("Name") == null)
                 {
                     <ul class="navbar-nav ml-auto">

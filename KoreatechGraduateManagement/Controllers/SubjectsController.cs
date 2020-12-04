@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KoreatechGraduateManagement.Data;
 using KoreatechGraduateManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace KoreatechGraduateManagement.Controllers
 {
@@ -46,6 +47,9 @@ namespace KoreatechGraduateManagement.Controllers
         // GET: Subjects/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("IsAdmin") == null)
+                return NotFound();
+
             return View();
         }
 
@@ -56,6 +60,9 @@ namespace KoreatechGraduateManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Semester,SubjectCode,ClassNumber,SubjectType,Target,ClassTime,Credit")] Subject subject)
         {
+            if (HttpContext.Session.GetString("IsAdmin") == null)
+                return NotFound();
+
             if (ModelState.IsValid)
             {
                 _context.Add(subject);
@@ -68,6 +75,9 @@ namespace KoreatechGraduateManagement.Controllers
         // GET: Subjects/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("IsAdmin") == null)
+                return NotFound();
+
             if (id == null)
             {
                 return NotFound();
@@ -86,8 +96,11 @@ namespace KoreatechGraduateManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Semester,SubjectCode,ClassNumber,SubjectType,Target,ClassTime,Credit")] Subject subject)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SubjectName,Semester,SubjectCode,ClassNumber,SubjectType,Target,ClassTime,Credit")] Subject subject)
         {
+            if (HttpContext.Session.GetString("IsAdmin") == null)
+                return NotFound();
+
             if (id != subject.Id)
             {
                 return NotFound();
@@ -119,6 +132,9 @@ namespace KoreatechGraduateManagement.Controllers
         // GET: Subjects/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("IsAdmin") == null)
+                return NotFound();
+
             if (id == null)
             {
                 return NotFound();
@@ -139,6 +155,9 @@ namespace KoreatechGraduateManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetString("IsAdmin") == null)
+                return NotFound();
+
             var subject = await _context.Subject.FindAsync(id);
             _context.Subject.Remove(subject);
             await _context.SaveChangesAsync();

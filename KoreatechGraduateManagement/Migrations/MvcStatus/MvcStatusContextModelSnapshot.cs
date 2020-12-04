@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace KoreatechGraduateManagement.Migrations.MvcSubject
+namespace KoreatechGraduateManagement.Migrations.MvcStatus
 {
-    [DbContext(typeof(MvcSubjectContext))]
-    partial class MvcSubjectContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(MvcStatusContext))]
+    partial class MvcStatusContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -18,40 +18,22 @@ namespace KoreatechGraduateManagement.Migrations.MvcSubject
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("KoreatechGraduateManagement.Models.Subject", b =>
+            modelBuilder.Entity("KoreatechGraduateManagement.Models.Status", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("ClassNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClassTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Credit")
-                        .HasColumnType("int");
-
                     b.Property<string>("Semester")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SubjectCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SubjectName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SubjectType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Target")
+                    b.Property<string>("SubjectID")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subject");
+                    b.ToTable("Status");
                 });
 #pragma warning restore 612, 618
         }

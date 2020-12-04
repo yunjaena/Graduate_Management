@@ -18,7 +18,7 @@ namespace KoreatechGraduateManagement.Models
         public string UserID { get; set; }
 
         [RegularExpression(@"^[a-zA-Z0-9?=.*!@#$%^&+=]*$", ErrorMessage = "올바른 비밀번호가 아닙니다.")]
-        [StringLength(30, MinimumLength = 8, ErrorMessage = "8자리 이상 입력해주세요")]
+        [StringLength(60, MinimumLength = 8, ErrorMessage = "8자리 이상 입력해주세요")]
         [DisplayName("비밀번호")]
         [Required(ErrorMessage = "비밀번호를 입력해주세요.")]
         public string UserPassword { get; set; }
@@ -38,6 +38,8 @@ namespace KoreatechGraduateManagement.Models
         [DisplayName("학년")]
         [Required]
         public int Grade { get; set; }
+
+        [DisplayName("관리자")]
         public bool IsAdmin { get; set; }
     }
 }

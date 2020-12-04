@@ -42,7 +42,10 @@ namespace KoreatechGraduateManagement.Controllers
                     HttpContext.Session.SetString("Name", data.FirstOrDefault().Name);
                     HttpContext.Session.SetInt32("Id", data.FirstOrDefault().Id);
                     if(data.FirstOrDefault().IsAdmin)
-                        HttpContext.Session.SetString("IsAdmin", data.FirstOrDefault().Name);
+                        HttpContext.Session.SetString("Authorize", "Admin");
+                    else
+                        HttpContext.Session.SetString("Authorize", "User");
+
                     return Redirect("~/");
                 }
                 else

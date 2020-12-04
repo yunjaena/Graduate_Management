@@ -7,107 +7,88 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KoreatechGraduateManagement.Data;
 using KoreatechGraduateManagement.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace KoreatechGraduateManagement.Controllers
 {
-    public class UsersController : Controller
+    public class StatusController : Controller
     {
-        private readonly MvcUserContext _context;
+        private readonly MvcStatusContext _context;
 
-        public UsersController(MvcUserContext context)
+        public StatusController(MvcStatusContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Status
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
-            return View(await _context.User.ToListAsync());
+            return View(await _context.Status.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Status/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User
+            var status = await _context.Status
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (status == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(status);
         }
 
-        // GET: Users/Create
+        // GET: Status/Create
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Status/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserID,UserPassword,Name,SchoolD,Grade,IsAdmin")] User user)
+        public async Task<IActionResult> Create([Bind("Id,SubjectID,Semester")] Status status)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(status);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(status);
         }
 
-        // GET: Users/Edit/5
+        // GET: Status/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var status = await _context.Status.FindAsync(id);
+            if (status == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(status);
         }
 
-        // POST: Users/Edit/5
+        // POST: Status/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,UserPassword,Name,SchoolD,Grade,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SubjectID,Semester")] Status status)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
-            if (id != user.Id)
+            if (id != status.Id)
             {
                 return NotFound();
             }
@@ -116,12 +97,12 @@ namespace KoreatechGraduateManagement.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(status);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!StatusExists(status.Id))
                     {
                         return NotFound();
                     }
@@ -132,47 +113,41 @@ namespace KoreatechGraduateManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(status);
         }
 
-        // GET: Users/Delete/5
+        // GET: Status/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User
+            var status = await _context.Status
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (status == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(status);
         }
 
-        // POST: Users/Delete/5
+        // POST: Status/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
-            var user = await _context.User.FindAsync(id);
-            _context.User.Remove(user);
+            var status = await _context.Status.FindAsync(id);
+            _context.Status.Remove(status);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool StatusExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.Status.Any(e => e.Id == id);
         }
     }
 }

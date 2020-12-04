@@ -7,107 +7,88 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KoreatechGraduateManagement.Data;
 using KoreatechGraduateManagement.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace KoreatechGraduateManagement.Controllers
 {
-    public class UsersController : Controller
+    public class EtcStatusController : Controller
     {
-        private readonly MvcUserContext _context;
+        private readonly MvcEtcStatusContext _context;
 
-        public UsersController(MvcUserContext context)
+        public EtcStatusController(MvcEtcStatusContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: EtcStatus
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
-            return View(await _context.User.ToListAsync());
+            return View(await _context.EtcStatus.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: EtcStatus/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User
+            var etcStatus = await _context.EtcStatus
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (etcStatus == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(etcStatus);
         }
 
-        // GET: Users/Create
+        // GET: EtcStatus/Create
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             return View();
         }
 
-        // POST: Users/Create
+        // POST: EtcStatus/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserID,UserPassword,Name,SchoolD,Grade,IsAdmin")] User user)
+        public async Task<IActionResult> Create([Bind("Id,UserID,IsIPPFinish,IsEngineerCertificationFinish,IsEnglishCertificationFinish")] EtcStatus etcStatus)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(etcStatus);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(etcStatus);
         }
 
-        // GET: Users/Edit/5
+        // GET: EtcStatus/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var etcStatus = await _context.EtcStatus.FindAsync(id);
+            if (etcStatus == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(etcStatus);
         }
 
-        // POST: Users/Edit/5
+        // POST: EtcStatus/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,UserPassword,Name,SchoolD,Grade,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,IsIPPFinish,IsEngineerCertificationFinish,IsEnglishCertificationFinish")] EtcStatus etcStatus)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
-            if (id != user.Id)
+            if (id != etcStatus.Id)
             {
                 return NotFound();
             }
@@ -116,12 +97,12 @@ namespace KoreatechGraduateManagement.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(etcStatus);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!EtcStatusExists(etcStatus.Id))
                     {
                         return NotFound();
                     }
@@ -132,47 +113,41 @@ namespace KoreatechGraduateManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(etcStatus);
         }
 
-        // GET: Users/Delete/5
+        // GET: EtcStatus/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User
+            var etcStatus = await _context.EtcStatus
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (etcStatus == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(etcStatus);
         }
 
-        // POST: Users/Delete/5
+        // POST: EtcStatus/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (HttpContext.Session.GetString("Authorize") != "Admin")
-                return NotFound();
-
-            var user = await _context.User.FindAsync(id);
-            _context.User.Remove(user);
+            var etcStatus = await _context.EtcStatus.FindAsync(id);
+            _context.EtcStatus.Remove(etcStatus);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool EtcStatusExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.EtcStatus.Any(e => e.Id == id);
         }
     }
 }
