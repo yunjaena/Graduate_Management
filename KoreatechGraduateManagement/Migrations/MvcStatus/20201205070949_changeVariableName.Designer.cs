@@ -3,14 +3,16 @@ using KoreatechGraduateManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KoreatechGraduateManagement.Migrations.MvcStatus
 {
     [DbContext(typeof(MvcStatusContext))]
-    partial class MvcStatusContextModelSnapshot : ModelSnapshot
+    [Migration("20201205070949_changeVariableName")]
+    partial class changeVariableName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

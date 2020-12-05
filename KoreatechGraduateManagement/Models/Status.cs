@@ -11,9 +11,9 @@ namespace KoreatechGraduateManagement.Models
         public int Id { get; set; }
 
         [DisplayName("회원 ID")]
-        public String SubjectID { get; set; }
+        public String UserID { get; set; }
 
         [DisplayName("과목 ID")]
-        public String Semester { get; set; }
+        public String SubjectID { get; set; }
     }
 }
