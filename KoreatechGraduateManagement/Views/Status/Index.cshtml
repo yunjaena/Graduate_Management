@@ -1,4 +1,4 @@
-﻿@model IEnumerable<KoreatechGraduateManagement.Models.Status>
+﻿@model StatusViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -6,36 +6,87 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@using Microsoft.AspNetCore.Http;
+@if (Context.Session.GetString("Authorize") == "Admin")
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+
+
+    <form asp-controller="Status" asp-action="Index">
+        <p>
+            유저 아이디 : <input type="text" name="userID">
+            <input type="submit" value="검색" />
+        </p>
+    </form>
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserID)
+                @Html.DisplayNameFor(model => model.StatusInfos[0].UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SubjectID)
+                @Html.DisplayNameFor(model => model.StatusInfos[0].SubjectName)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusInfos[0].Semester)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusInfos[0].ClassNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusInfos[0].SubjectType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusInfos[0].Target)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusInfos[0].ClassTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusInfos[0].Credit)
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubjectID)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+
+        @if (Model != null && Model.StatusInfos != null)
+        {
+            @foreach (var item in Model.StatusInfos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubjectName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Semester)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClassNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubjectType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Target)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClassTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Credit)
+                    </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>

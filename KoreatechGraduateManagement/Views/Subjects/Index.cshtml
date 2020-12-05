@@ -1,46 +1,106 @@
-﻿@model IEnumerable<KoreatechGraduateManagement.Models.Subject>
+﻿@model SubjectViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    #register {
+        background: #1AAB8A;
+        color: #fff;
+        border: none;
+        position: relative;
+        height: 100%;
+        font-size: 1.0em;
+        padding: 0 0.2em;
+        margin: 0 0.2em;
+        cursor: pointer;
+        transition: 800ms ease all;
+        outline: none;
+    }
 
+        #register:hover {
+            background: #fff;
+            color: #1AAB8A;
+        }
+
+        #register:before, #register:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 2px;
+            width: 0;
+            background: #1AAB8A;
+            transition: 400ms ease all;
+        }
+
+        #register:after {
+            right: inherit;
+            top: inherit;
+            left: 0;
+            bottom: 0;
+        }
+
+        #register:hover:before, #register:hover:after {
+            width: 100%;
+            transition: 800ms ease all;
+        }
+
+    .form-div {
+        width = 100%;
+        padding-right: 45px
+    }
+</style>
 <h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@using Microsoft.AspNetCore.Http;
+@if (Context.Session.GetString("Authorize") == "Admin")
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<form asp-controller="Subjects" asp-action="Index">
+    <p>
+        <select asp-for="SubjectSemester" asp-items="Model.Semesters">
+            <option value="">All</option>
+        </select>
+        과목명 : <input type="text" name="SearchString">
+        <input type="submit" value="검색" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SubjectName)
+                @Html.DisplayNameFor(model => model.Subjects[0].SubjectName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Semester)
+                @Html.DisplayNameFor(model => model.Subjects[0].Semester)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SubjectCode)
+                @Html.DisplayNameFor(model => model.Subjects[0].SubjectCode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClassNumber)
+                @Html.DisplayNameFor(model => model.Subjects[0].ClassNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SubjectType)
+                @Html.DisplayNameFor(model => model.Subjects[0].SubjectType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Target)
+                @Html.DisplayNameFor(model => model.Subjects[0].Target)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClassTime)
+                @Html.DisplayNameFor(model => model.Subjects[0].ClassTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Credit)
+                @Html.DisplayNameFor(model => model.Subjects[0].Credit)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model.Subjects)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.SubjectName)
@@ -66,12 +126,45 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Credit)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+            @if (Context.Session.GetString("Authorize") == "Admin")
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
+                <td>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="register" type="button" onclick="registerSubject(@item.Id)">등록</button>
+                    </span>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@section Scripts{
+    <script>
+        function registerSubject(subjectID) {
+            var id = @Context.Session.GetInt32("Id");
+            $.ajax({
+                type: "get",
+                url: "Status/RegisterSatus?userID=" + id + "&subjectID=" + subjectID,
+                data: "{}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    isSuccess = data.isSuccess;
+                    isAlreadyRegistered = data.isAlreadyRegistered;
+                    if (isSuccess)
+                        alert("등록되었습니다.");
+                    else if (isAlreadyRegistered)
+                        alert("이미 등록되어있습니다.");
+                    else
+                        alert("등록에 실패했습니다.");
+                },
+                error: function (data) { alert('등록에 실패했습니다.'); }
+            });
+        }
+    </script>
+}

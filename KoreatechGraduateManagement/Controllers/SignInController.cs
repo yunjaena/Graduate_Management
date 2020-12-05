@@ -14,9 +14,9 @@ namespace KoreatechGraduateManagement.Controllers
 {
     public class SignInController : Controller
     {
-        private readonly MvcUserContext _context;
+        private readonly MvcGraduateManagmentContext _context;
 
-        public SignInController(MvcUserContext context)
+        public SignInController(MvcGraduateManagmentContext context)
         {
             _context = context;
         }

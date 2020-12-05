@@ -11,7 +11,7 @@ namespace KoreatechGraduateManagement.Models
         public int Id { get; set; }
 
         [DisplayName("사용자 ID")]
-        public String UserID { get; set; }
+        public int UserID { get; set; }
 
         [DisplayName("IPP 이수여부")]
         public bool IsIPPFinish { get; set; }

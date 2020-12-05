@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace KoreatechGraduateManagement.Data
 {
-    public class MvcGraduateCreditContext : DbContext
+    public class MvcGraduateManagmentContext : DbContext
     {
-        public MvcGraduateCreditContext(DbContextOptions<MvcGraduateCreditContext> options)
+        public MvcGraduateManagmentContext(DbContextOptions<MvcGraduateManagmentContext> options)
             : base(options)
         {
         }
 
+        public DbSet<EtcStatus> EtcStatus { get; set; }
         public DbSet<GraduateCredit> GraduateCredit { get; set; }
+        public DbSet<Status> Status { get; set; }
+        public DbSet<Subject> Subject { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }
+

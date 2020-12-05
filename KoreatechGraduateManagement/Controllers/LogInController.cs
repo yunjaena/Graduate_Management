@@ -8,16 +8,17 @@ using KoreatechGraduateManagement.Data;
 using KoreatechGraduateManagement.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KoreatechGraduateManagement.Controllers
 {
     public class LogInController : Controller
     {
 
-        private readonly MvcUserContext _context;
+        private readonly MvcGraduateManagmentContext _context;
       
 
-        public LogInController(MvcUserContext context)
+        public LogInController(MvcGraduateManagmentContext context)
         {
             _context = context;
         }
@@ -29,7 +30,7 @@ namespace KoreatechGraduateManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(string userId, string userPassword)
+        public async Task<IActionResult> Index(string userId, string userPassword)
         {
             if (userId != null && userPassword != null)
             {
@@ -45,6 +46,23 @@ namespace KoreatechGraduateManagement.Controllers
                         HttpContext.Session.SetString("Authorize", "Admin");
                     else
                         HttpContext.Session.SetString("Authorize", "User");
+
+                
+                    var myList = await _context.EtcStatus.FirstOrDefaultAsync(m => m.UserID == data.FirstOrDefault().Id);
+
+                    if (myList == null)
+                    {
+                        EtcStatus etcStatus = new EtcStatus
+                        {
+                            IsEngineerCertificationFinish = false,
+                            IsEnglishCertificationFinish = false,
+                            IsIPPFinish = false,
+                            UserID = data.FirstOrDefault().Id
+                        };
+
+                        _context.EtcStatus.Add(etcStatus);
+                        await _context.SaveChangesAsync();
+                    }
 
                     return Redirect("~/");
                 }

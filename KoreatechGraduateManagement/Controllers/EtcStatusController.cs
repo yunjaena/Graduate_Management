@@ -7,22 +7,67 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KoreatechGraduateManagement.Data;
 using KoreatechGraduateManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace KoreatechGraduateManagement.Controllers
 {
     public class EtcStatusController : Controller
     {
-        private readonly MvcEtcStatusContext _context;
+        private readonly MvcGraduateManagmentContext _context;
 
-        public EtcStatusController(MvcEtcStatusContext context)
+        public EtcStatusController(MvcGraduateManagmentContext context)
         {
             _context = context;
         }
 
         // GET: EtcStatus
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.EtcStatus.ToListAsync());
+            List<EtcStatusInfo> result;
+            EtcStatusViewModel etcStatusViewModel;
+            var userID = HttpContext.Session.GetInt32("Id");
+
+            var query = from a in _context.EtcStatus
+                        join b in _context.User on a.UserID equals b.Id
+                        select new EtcStatusInfo
+                        {
+                            Id = a.Id,
+                            UserID = a.UserID,
+                            IsEngineerCertificationFinish = a.IsEngineerCertificationFinish,
+                            IsEnglishCertificationFinish = a.IsEnglishCertificationFinish,
+                            IsIPPFinish = a.IsIPPFinish,
+                            UserName = b.UserID
+                        };
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(s => s.UserName.Contains(searchString));
+            }
+
+            if (HttpContext.Session.GetString("Authorize") != "Admin" && userID != null)
+            {
+                query = query.Where(s => s.UserID == userID);
+                result = await query.ToListAsync();
+                if (result == null) 
+                    result = new List<EtcStatusInfo>();
+                etcStatusViewModel = new EtcStatusViewModel
+                {
+                    EtcStatusInfos = result
+                };
+                return View(etcStatusViewModel);
+            }
+
+            result = await query.ToListAsync();
+            if (result == null)
+                result = new List<EtcStatusInfo>();
+
+            etcStatusViewModel = new EtcStatusViewModel
+            {
+                EtcStatusInfos = result
+            };
+
+            return View(etcStatusViewModel);
         }
 
         // GET: EtcStatus/Details/5

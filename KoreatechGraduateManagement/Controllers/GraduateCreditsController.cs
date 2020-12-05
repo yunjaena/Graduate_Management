@@ -12,9 +12,9 @@ namespace KoreatechGraduateManagement.Controllers
 {
     public class GraduateCreditsController : Controller
     {
-        private readonly MvcGraduateCreditContext _context;
+        private readonly MvcGraduateManagmentContext _context;
 
-        public GraduateCreditsController(MvcGraduateCreditContext context)
+        public GraduateCreditsController(MvcGraduateManagmentContext context)
         {
             _context = context;
         }

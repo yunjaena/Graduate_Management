@@ -30,20 +30,8 @@ namespace KoreatechGraduateManagement
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<MvcUserContext>(options =>
-                  options.UseSqlServer(Configuration.GetConnectionString("MvcUserContext")));
-
-            services.AddDbContext<MvcSubjectContext>(options =>
-                 options.UseSqlServer(Configuration.GetConnectionString("MvcSubjectContext")));
-
-            services.AddDbContext<MvcStatusContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("MvcStatusContext")));
-
-            services.AddDbContext<MvcEtcStatusContext>(options =>
-              options.UseSqlServer(Configuration.GetConnectionString("MvcEtcStatusContext")));
-
-            services.AddDbContext<MvcGraduateCreditContext>(options =>
-                 options.UseSqlServer(Configuration.GetConnectionString("MvcGraduateCreditContext")));
+            services.AddDbContext<MvcGraduateManagmentContext>(options =>
+                  options.UseSqlServer(Configuration.GetConnectionString("MvcGraduateManagmentContext")));
 
             services.Configure<WebEncoderOptions>(options =>
             {

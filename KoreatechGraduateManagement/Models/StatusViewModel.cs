@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace KoreatechGraduateManagement.Models
 {
-    public class Status
+    public class StatusViewModel
+    {
+        public List<StatusInfo> StatusInfos { get; set;}
+    }
+
+    public class StatusInfo : Subject
     {
         public int Id { get; set; }
 
@@ -15,5 +20,8 @@ namespace KoreatechGraduateManagement.Models
 
         [DisplayName("과목 ID")]
         public int SubjectID { get; set; }
+
+        [DisplayName("유저 이름")]
+        public String UserName { get; set; }
     }
 }

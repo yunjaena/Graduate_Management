@@ -13,18 +13,44 @@ namespace KoreatechGraduateManagement.Controllers
 {
     public class SubjectsController : Controller
     {
-        private readonly MvcSubjectContext _context;
+        private readonly MvcGraduateManagmentContext _context;
 
-        public SubjectsController(MvcSubjectContext context)
+        public SubjectsController(MvcGraduateManagmentContext context)
         {
             _context = context;
         }
 
-        // GET: Subjects
-        public async Task<IActionResult> Index()
+    
+        public async Task<IActionResult> Index(string subjectSemester,  string searchString)
         {
-            return View(await _context.Subject.ToListAsync());
+
+
+            IQueryable<string> semesterQuery = from m in _context.Subject
+                                            orderby m.Semester
+                                            select m.Semester;
+
+            var subject = from m in _context.Subject
+                          select m;
+
+            if (!String.IsNullOrEmpty(subjectSemester))
+            {
+                subject = subject.Where(s => s.Semester.Contains(subjectSemester));
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                subject = subject.Where(s => s.SubjectName.Contains(searchString)).OrderBy(s => s.Semester);
+            }
+
+            var subjectVM = new SubjectViewModel
+            {
+                Semesters = new SelectList(await semesterQuery.Distinct().ToListAsync()),
+                Subjects = await subject.ToListAsync()
+            };
+
+            return View(subjectVM);
         }
+
 
         // GET: Subjects/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -47,7 +73,7 @@ namespace KoreatechGraduateManagement.Controllers
         // GET: Subjects/Create
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("IsAdmin") == null)
+            if (HttpContext.Session.GetString("Authorize") != "Admin")
                 return NotFound();
 
             return View();
@@ -58,9 +84,9 @@ namespace KoreatechGraduateManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Semester,SubjectCode,ClassNumber,SubjectType,Target,ClassTime,Credit")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Id,SubjectName,Semester,SubjectCode,ClassNumber,SubjectType,Target,ClassTime,Credit")] Subject subject)
         {
-            if (HttpContext.Session.GetString("IsAdmin") == null)
+            if (HttpContext.Session.GetString("Authorize") != "Admin")
                 return NotFound();
 
             if (ModelState.IsValid)
@@ -75,7 +101,7 @@ namespace KoreatechGraduateManagement.Controllers
         // GET: Subjects/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (HttpContext.Session.GetString("IsAdmin") == null)
+            if (HttpContext.Session.GetString("Authorize") != "Admin")
                 return NotFound();
 
             if (id == null)
@@ -98,7 +124,7 @@ namespace KoreatechGraduateManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,SubjectName,Semester,SubjectCode,ClassNumber,SubjectType,Target,ClassTime,Credit")] Subject subject)
         {
-            if (HttpContext.Session.GetString("IsAdmin") == null)
+            if (HttpContext.Session.GetString("Authorize") != "Admin")
                 return NotFound();
 
             if (id != subject.Id)
@@ -132,7 +158,7 @@ namespace KoreatechGraduateManagement.Controllers
         // GET: Subjects/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (HttpContext.Session.GetString("IsAdmin") == null)
+            if (HttpContext.Session.GetString("Authorize") != "Admin")
                 return NotFound();
 
             if (id == null)
@@ -155,7 +181,7 @@ namespace KoreatechGraduateManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (HttpContext.Session.GetString("IsAdmin") == null)
+            if (HttpContext.Session.GetString("Authorize") != "Admin")
                 return NotFound();
 
             var subject = await _context.Subject.FindAsync(id);
@@ -168,5 +194,6 @@ namespace KoreatechGraduateManagement.Controllers
         {
             return _context.Subject.Any(e => e.Id == id);
         }
+
     }
 }
