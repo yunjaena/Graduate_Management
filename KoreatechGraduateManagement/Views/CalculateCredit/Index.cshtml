@@ -1,0 +1,116 @@
+﻿@model CalculateCreditViewModel
+
+@{
+    ViewData["Title"] = "졸업종합현황";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.EntranceYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.TotalGraduateCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.ElectivesNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.ElectivesNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.CoreClassNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.CoreClassNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.HRDNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.HRDClassNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.MSCNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.MSCNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GraduateCredit.FreeCredit)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.EntranceYear)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.TotalGraduateCredit) /  @Html.DisplayFor(model => model.UserTotalGraduateCredit)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.ElectivesNormalCredit)  /  @Html.DisplayFor(model => model.UserElectivesNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.ElectivesNecessaryCredit) /  @Html.DisplayFor(model => model.UserElectivesNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.CoreClassNormalCredit) /  @Html.DisplayFor(model => model.UserCoreClassNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.CoreClassNecessaryCredit) /  @Html.DisplayFor(model => model.UserCoreClassNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.HRDNormalCredit) /  @Html.DisplayFor(model => model.UserHRDNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.HRDClassNecessaryCredit) /  @Html.DisplayFor(model => model.UserHRDClassNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.MSCNormalCredit) /  @Html.DisplayFor(model => model.UserMSCNormalCredit)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.MSCNecessaryCredit) /  @Html.DisplayFor(model => model.UserMSCNecessaryCredit)
+            </th>
+            <th>
+                @Html.DisplayFor(model => model.GraduateCredit.FreeCredit) /  @Html.DisplayFor(model => model.UserFreeCredit)
+            </th>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EtcStatus.IsIPPFinish)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EtcStatus.IsEngineerCertificationFinish)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EtcStatus.IsEnglishCertificationFinish)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.EtcStatus.IsIPPFinish)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.EtcStatus.IsEngineerCertificationFinish)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.EtcStatus.IsEnglishCertificationFinish)
+                </td>            
+            </tr>
+    </tbody>
+</table>
+
+<h3>@Html.DisplayFor(modelItem => Model.GraduateValidString)</h3>

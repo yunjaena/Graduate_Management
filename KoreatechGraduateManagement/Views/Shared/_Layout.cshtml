@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,9 +42,11 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="EtcStatus" asp-action="Index">회원기타졸업요건관리</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="CalculateCredit" asp-action="Index">졸업종합현황</a>
+                        </li>
                     }
-                    else if(Context.Session.GetString("Authorize") == "User")
+                    else if (Context.Session.GetString("Authorize") == "User")
                     {
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Subjects" asp-action="Index">과목검색</a>
@@ -55,6 +56,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="EtcStatus" asp-action="Index">기타졸업요건관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="CalculateCredit" asp-action="Index">졸업종합현황</a>
                         </li>
                     }
                 </ul>
