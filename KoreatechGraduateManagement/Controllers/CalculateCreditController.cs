@@ -7,6 +7,9 @@ using KoreatechGraduateManagement.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+/**
+ * 졸업에 필요한 학점 및 기타 조건들을 조회하는 Controller 
+ */
 namespace KoreatechGraduateManagement.Controllers
 {
     public class CalculateCreditController : Controller
@@ -19,6 +22,9 @@ namespace KoreatechGraduateManagement.Controllers
             _context = context;
         }
 
+        /**
+         * 로그인이 되어있는 경우 가입자의 학번을보고 이수학점을 계산해서 보여주는 View를 반환한다.
+         */
         public IActionResult Index()
         {
             int userTotalGraduateCredit = 0;
